@@ -6,4 +6,5 @@ public interface UserService {
 
     boolean addNewUser(User user);
     String signInUser(User user);
+    String signOutUser(User user);
 }

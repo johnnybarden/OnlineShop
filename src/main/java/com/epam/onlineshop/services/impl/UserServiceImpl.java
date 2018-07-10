@@ -42,4 +42,10 @@ public class UserServiceImpl implements UserService {
             return "wrong_enter";
         }
     }
+
+    @Override
+    public String signOutUser(User user) {
+        User byUsername = userRepository.findByUsername(user.getUsername());
+        return null;
+    }
 }
