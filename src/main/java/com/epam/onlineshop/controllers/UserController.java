@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import com.epam.onlineshop.entities.Role;
 import com.epam.onlineshop.entities.User;
 import com.epam.onlineshop.services.UserService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,8 +30,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/registration")
-    public ModelAndView addUser(@ModelAttribute("userJSP") User user, ModelAndView model) {
+    public ModelAndView addUser(@ModelAttribute("userJSP") User user, ModelAndView model, HttpSession session) {
         if (userService.addUser(user)) {
+            session.setAttribute("user", user);
             model.setViewName("welcome");
             model.addObject("userJSP", user);
         } else {
@@ -40,14 +44,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute("userJSP") User user, ModelAndView model) {
+    public ModelAndView login(@ModelAttribute("userJSP") User user, ModelAndView model, HttpSession session) {
         if (userService.isUserValidated(user.getPassword(), user.getUsername())) {
+            session.setAttribute("user", user);
             model.setViewName(getViewNameByRole(userService.getRoleByUsername(user.getUsername())));
             model.addObject("userJSP", user);
         } else {
             model.setViewName("index");
             model.addObject("message", WRONG_SIGNIN);
         }
+        return model;
+    }
+
+    @PostMapping("/logout")
+    public ModelAndView logout(@ModelAttribute("userJSP") User user, ModelAndView model, HttpSession session) {
+        model.setViewName("index");
+        model.addObject("message", WRONG_SIGNIN);
         return model;
     }
 

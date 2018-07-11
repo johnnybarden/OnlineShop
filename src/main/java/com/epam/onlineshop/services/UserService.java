@@ -10,4 +10,6 @@ public interface UserService {
     boolean isUserValidated(String password, String username);
 
     Role getRoleByUsername(String username);
+
+    String signOutUser(User user);
 }
