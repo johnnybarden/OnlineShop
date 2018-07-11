@@ -1,69 +1,66 @@
 package com.epam.onlineshop.controllers;
 
+import lombok.RequiredArgsConstructor;
+import com.epam.onlineshop.entities.Role;
 import com.epam.onlineshop.entities.User;
 import com.epam.onlineshop.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
-
 @RestController
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
 
+    private final UserService userService;
 
-    @GetMapping("/session")
-    public ModelAndView ifSessionExists(HttpSession session) {
-        if(session.getAttribute("user") == null) {
-            System.out.println("no session");
-            session.setAttribute("user", new Object());
+    private final static String WRONG_SIGNIN = "Username or Password is wrong!";
+    private final static String WRONG_SIGNUP = "This username is already exist!";
+
+    @GetMapping(value = "/registration")
+    public ModelAndView registration(ModelAndView model) {
+        model.addObject("newUser", new User());
+        model.setViewName("registration");
+        return model;
+    }
+
+    @PostMapping(value = "/registration")
+    public ModelAndView addUser(@ModelAttribute("userJSP") User user, ModelAndView model) {
+        if (userService.addUser(user)) {
+            model.setViewName("welcome");
+            model.addObject("userJSP", user);
         } else {
-            System.out.println("there is a session");
+            model.setViewName("registration");
+            model.addObject("newUser", user);
+            model.addObject("registerErrorMessage", WRONG_SIGNUP);
         }
-        return new ModelAndView();
+        return model;
     }
 
-    @PostMapping("/registration")
-    public ModelAndView registerUser() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("newUser", new User());
-        modelAndView.addObject(" registerErrorMessage", "hollou");
-        modelAndView.setViewName("regist");
-        return modelAndView;
-    }
-
-    @PostMapping("/signin")
-    public ModelAndView signIn(@ModelAttribute("userJSP") User user) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(userService.signInUser(user));
-        modelAndView.addObject("userJSP", user);
-        return modelAndView;
-    }
-
-    /*@PostMapping("/signout")
-    public ModelAndView signOut(@ModelAttribute("userJSP") User user) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(userService.signOutUser(user));
-        //modelAndView.addObject("userJSP", user);
-        return modelAndView;
-    }*/
-
-    @PostMapping("/user")
-    public ModelAndView addNewUser(@ModelAttribute("userJSP") User user) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (userService.addNewUser(user)) {
-            modelAndView.setViewName("welcome");
-            modelAndView.addObject("userJSP", user);
+    @PostMapping("/login")
+    public ModelAndView login(@ModelAttribute("userJSP") User user, ModelAndView model) {
+        if (userService.isUserValidated(user.getPassword(), user.getUsername())) {
+            model.setViewName(getViewNameByRole(userService.getRoleByUsername(user.getUsername())));
+            model.addObject("userJSP", user);
         } else {
-            modelAndView.setViewName("regist");
-            modelAndView.addObject("newUser", user);
-            modelAndView.addObject("registerErrorMessage", "User with this login is already exists.");
+            model.setViewName("index");
+            model.addObject("message", WRONG_SIGNIN);
         }
-        return modelAndView;
+        return model;
+    }
+
+    String getViewNameByRole(Role userRole) {
+        switch (userRole) {
+            case USER:
+                return "welcome";
+            case ADMIN:
+                return "admin";
+            case ANONYMOUS:
+                return "welcome";
+            default:
+                return "welcome";
+        }
     }
 }

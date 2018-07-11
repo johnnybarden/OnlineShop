@@ -12,7 +12,7 @@ public class HelloController {
     @GetMapping("/")
     public String main(Map<String, Object> model) {
         model.put("userJSP", new User());
+        model.put("message", "");
         return "index";
-
     }
 }
