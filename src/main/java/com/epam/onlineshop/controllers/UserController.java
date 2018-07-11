@@ -21,6 +21,7 @@ public class UserController {
 
     private final static String WRONG_SIGNIN = "Username or Password is wrong!";
     private final static String WRONG_SIGNUP = "This username is already exist!";
+    private final static String LOG_OUT = "You are logged out successfully.";
 
     @GetMapping(value = "/registration")
     public ModelAndView registration(ModelAndView model) {
@@ -50,7 +51,7 @@ public class UserController {
             model.setViewName(getViewNameByRole(userService.getRoleByUsername(user.getUsername())));
             model.addObject("userJSP", user);
         } else {
-            model.setViewName("index");
+            model.setViewName("main");
             model.addObject("message", WRONG_SIGNIN);
         }
         return model;
@@ -58,8 +59,9 @@ public class UserController {
 
     @PostMapping("/logout")
     public ModelAndView logout(@ModelAttribute("userJSP") User user, ModelAndView model, HttpSession session) {
-        model.setViewName("index");
-        model.addObject("message", WRONG_SIGNIN);
+        session.invalidate();
+        model.setViewName("main");
+        model.addObject("message", LOG_OUT);
         return model;
     }
 

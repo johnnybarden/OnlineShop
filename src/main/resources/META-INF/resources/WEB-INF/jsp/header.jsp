@@ -25,6 +25,7 @@
                         <ul class="nav navbar-nav">
                             <li><a href="cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                             <li><a href="login"><i class="fa fa-lock"></i> Login</a></li>
+                            <li><a href="logout"><i class="fa fa-lock"></i> Log out</a></li>
                         </ul>
                     </div>
                 </div>
