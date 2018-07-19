@@ -58,7 +58,6 @@
                     <td>
                         <div class = "login-form">
                             <editing:form action = "${pageContext.request.contextPath}/products/${product.id}/edit" method = "get">
-                                <button type="submit" class="btn btn-default ">Edit</button>
                                 <button type="submit" class="btn btn-default"><spring:message code="label.edit"/></button>
                             </editing:form>
                         </div>

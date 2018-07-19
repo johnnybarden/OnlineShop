@@ -82,7 +82,7 @@ public class ProductController {
         String name = String.valueOf(currentTime);
 
         if(file.isEmpty()){
-            product.setImageLink("default.jpg");
+            product.setImageLink(productService.getProductById(id).getImageLink());
         } else {
             model = ImageWriter.writeImage(model, file, name);
             product.setImageLink(name + ".jpg");
