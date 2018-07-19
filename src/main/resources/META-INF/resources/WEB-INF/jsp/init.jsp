@@ -1,4 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page session="false"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <meta charset="utf-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -49,3 +53,6 @@
 <script src="${pageContext.request.contextPath}/js/price-range.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.prettyPhoto.js"></script>
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/js/functions.js"></script>

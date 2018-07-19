@@ -1,6 +1,5 @@
 package com.epam.onlineshop.services.security;
 
-import com.epam.onlineshop.entities.Role;
 import com.epam.onlineshop.entities.User;
 import com.epam.onlineshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +25,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
 
+        if (user.getIsBlocked()) {
+            throw new RuntimeException("blocked");
+        }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(Role.USER.toString()));
-        grantedAuthorities.add(new SimpleGrantedAuthority(Role.ADMIN.toString()));
-        grantedAuthorities.add(new SimpleGrantedAuthority(Role.ANONYMOUS.toString()));
+
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }

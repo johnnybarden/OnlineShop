@@ -2,11 +2,14 @@ package com.epam.onlineshop.controllers;
 
 import com.epam.onlineshop.entities.Product;
 import com.epam.onlineshop.entities.Role;
+import com.epam.onlineshop.entities.User;
 import com.epam.onlineshop.services.ProductService;
+import com.epam.onlineshop.services.UserService;
 import com.epam.onlineshop.utils.ImageWriter;
 import com.epam.onlineshop.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,20 +21,22 @@ import java.util.Date;
 public class ProductController {
 
     private final ProductService productService;
+
     private final ProductValidator productValidator;
 
+    private final UserService userService;
+
     @GetMapping("/catalog")
-    public ModelAndView showProducts() {
-        ModelAndView catalog = new ModelAndView();
-        catalog.addObject(productService.getAllProducts());
-        catalog.addObject("product", new Product());
-        catalog.setViewName(getViewName(Role.ADMIN)); //access to admin page is open for all users for now
-        // (will be changed after the addition of sessions)
-        return catalog;
+    public ModelAndView getAllProducts(ModelAndView model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(username);
+        model.setViewName(getViewName(user.getRole()));
+        model.addObject(productService.getAllProducts());
+        return model;
     }
 
-    @PostMapping("/catalog")
-    public ModelAndView addProduct(@ModelAttribute("product") Product product, @RequestParam("file") MultipartFile file, BindingResult bindingResult) {
+    @PostMapping("/products")
+    public ModelAndView addProduct(@ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
         ModelAndView catalog = new ModelAndView();
         productValidator.validate(product, bindingResult);
 
@@ -39,21 +44,66 @@ public class ProductController {
         if (!bindingResult.hasErrors()) {
             long currentTime = new Date().getTime();
             String name = String.valueOf(currentTime);
-            catalog = ImageWriter.writeImage(catalog, file, name);
-            product.setImageLink(name + ".jpg");
-            //product.setCount(100); //TEMPORARY
+
+            if(file.isEmpty()){
+                product.setImageLink("default.jpg");
+            }else {
+                catalog = ImageWriter.writeImage(catalog, file, name);
+                product.setImageLink(name + ".jpg");
+            }
             productService.addNewProduct(product);
-            catalog.addObject(productService.getAllProducts());
-        }else{
-            catalog.addObject(productService.getAllProducts());
         }
+
+        catalog.addObject(productService.getAllProducts());
         return catalog;
+    }
+
+    @GetMapping("/products/add")
+    public ModelAndView getProductForm(ModelAndView model) {
+        model.addObject("product", new Product());
+        model.setViewName("add_product");
+        return model;
+    }
+
+    @GetMapping("/products/{id}/edit")
+    public ModelAndView editProduct(@PathVariable Long id,  ModelAndView model) {
+        model.setViewName("edit_product");
+        model.addObject("product", productService.getProductById(id));
+        return model;
+    }
+
+    @PostMapping("/products/{id}/save")
+    public ModelAndView saveProduct(ModelAndView model, @PathVariable Long id, @ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
+        model = new ModelAndView();
+        productValidator.validate(product, bindingResult);
+
+        model.setViewName(getViewName(Role.ADMIN));
+        long currentTime = new Date().getTime();
+        String name = String.valueOf(currentTime);
+
+        if(file.isEmpty()){
+            product.setImageLink("default.jpg");
+        } else {
+            model = ImageWriter.writeImage(model, file, name);
+            product.setImageLink(name + ".jpg");
+        }
+
+        productService.saveProduct(product);
+
+        model.addObject(productService.getAllProducts());
+        return model;
+    }
+
+    @PostMapping("/products/{id}/delete")
+    public ModelAndView deleteProduct(@PathVariable Long id) {
+        productService.deleteProductById(id);
+        return new ModelAndView("redirect:/catalog");
     }
 
     private String getViewName(Role role) {
         switch (role) {
             case ADMIN:
-                return "main_admin";
+                return "main_admin_products";
             default:
                 return "main";
         }

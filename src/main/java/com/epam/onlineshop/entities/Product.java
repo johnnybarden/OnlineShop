@@ -1,16 +1,20 @@
 package com.epam.onlineshop.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "product")
 public class Product {
 
@@ -22,12 +26,17 @@ public class Product {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "category", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
+
     @Column(name = "price", nullable = false)
     private Integer price;
 
     @Column(name = "image_url")
     private String imageLink;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "product")
     private List<ProductInOrder> productInOrderList;
 }

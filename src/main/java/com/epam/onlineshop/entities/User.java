@@ -2,10 +2,10 @@ package com.epam.onlineshop.entities;
 
 import javax.persistence.*;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
+import java.util.Collection;
+import lombok.*;
 
 import java.util.List;
 
@@ -35,9 +35,19 @@ public class User {
     @Column(name = "is_blocked")
     private Boolean isBlocked;
 
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "second_name", nullable = false)
+    private String secondName;
+
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
     @Column(name = "address", nullable = false)
     private String address;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private List<Order> orders;
 }
