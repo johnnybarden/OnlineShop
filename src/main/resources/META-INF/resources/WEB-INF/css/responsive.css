@@ -320,7 +320,8 @@ ul.sub-menu{
 
 .logo{
 	text-align: center;
-	width: 100%;
+	max-height: 50px;
+	max-height: 50px;
 }
 
 .shop-menu ul li {

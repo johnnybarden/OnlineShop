@@ -1,42 +1,56 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="blocking" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="container">
     <div class = "login-form">
-    <h3 class = "navbar-header">Users</h3>
-    <table class = "table table-condensed admin-table">
-        <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Address</th>
-            <th>Block</th>
-        </tr>
-        <c:forEach var = "user" items = "${userList}">
+        <h3 class = "navbar-header"><spring:message code="label.users"/></h3>
+        <table class = "table table-condensed admin-table">
             <tr>
-                <td>"${user.username}"</td>
-                <td>"${user.role}"</td>
-                <td>"${user.address}"</td>
-                <td>
-                    <blocking:form action = "users/${user.id}/block" method = "post">
+                <th>Username</th>
+                <th>Role</th>
+                <th>Address</th>
+                <th>First name</th>
+                <th>Second name</th>
+                <th>Phone number</th>
+                <th>Block</th>
+                <th><spring:message code="label.userName"/></th>
+                <th><spring:message code="label.role"/></th>
+                <th><spring:message code="label.address"/></th>
+                <th><spring:message code="label.block"/></th>
+            </tr>
+            <c:forEach var = "user" items = "${userList}">
+                <tr>
+                    <td>${user.username}</td>
+                    <td>${user.role}</td>
+                    <td>${user.address}</td>
+                    <td>${user.firstName}</td>
+                    <td>${user.secondName}</td>
+                    <td>${user.phoneNumber}</td>
+                    <td>
+                        <blocking:form action = "users/${user.id}/block" method = "post">
 
-                        <c:if test = "${user.role != 'ADMIN'}">
-                            <button type="submit" class="btn btn-default">
+                            <c:if test = "${user.role != 'ADMIN'}">
                                 <c:choose>
                                     <c:when test="${user.isBlocked == 'false'}">
-                                        Block
+                                        <spring:message code="label.block"/>
+                                        <button type="submit" class="btn btn-default block-button">Block</button>
                                     </c:when>
                                     <c:otherwise>
-                                        Unblock
+                                        <spring:message code="label.unblock"/>
+                                        <button type="submit" class="btn btn-default block-button">Unblock</button>
                                     </c:otherwise>
                                 </c:choose>
-                            </button>
-                        </c:if>
+                                </button>
+                            </c:if>
 
-                    </blocking:form>
+                        </blocking:form>
 
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-        </div>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
 </div>

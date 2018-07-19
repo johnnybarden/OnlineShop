@@ -35,6 +35,15 @@ public class User {
     @Column(name = "is_blocked")
     private Boolean isBlocked;
 
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "second_name", nullable = false)
+    private String secondName;
+
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
     @Column(name = "address", nullable = false)
     private String address;
 

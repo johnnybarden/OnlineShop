@@ -1,3 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page session="false"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="formatDate" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="formatTime" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -7,15 +10,15 @@
 
 <div class = "container">
     <div>
-        <p><b>User:</b>    ${order.user.username}</p>
-        <p><b>Order date:</b>    <formatDate:formatDate value = "${order.dateAndTime}" pattern = "dd.MM.yyyy"/></p>
-        <p><b>Order time:</b>    <formatTime:formatDate value = "${order.dateAndTime}" pattern = "hh:mm"/></p>
-        <p><b>Status:</b>    ${order.status}</p>
+        <p><b><spring:message code="label.user"/>:</b>    ${order.user.username}</p>
+        <p><b><spring:message code="label.orderDate"/>:</b>    <formatDate:formatDate value = "${order.dateAndTime}" pattern = "dd.MM.yyyy"/></p>
+        <p><b><spring:message code="label.orderTime"/>:</b>    <formatTime:formatDate value = "${order.dateAndTime}" pattern = "hh:mm"/></p>
+        <p><b><spring:message code="label.status"/>:</b>    ${order.status}</p>
     </div>
     <table>
         <tr>
-            <th>Product</th>
-            <th>Quantity</th>
+            <th><spring:message code="label.product"/></th>
+            <th><spring:message code="label.quantity"/></th>
         </tr>
         <c:forEach var = "productInOrder" items = "${productsInOrder}">
             <tr>

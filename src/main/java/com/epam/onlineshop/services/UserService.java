@@ -13,6 +13,8 @@ public interface UserService {
 
     User findByUsername(String username);
 
+    void updateUser(User user);
+
     List<User> getAllUsers();
 
     boolean changeBlockedStatus(User user);

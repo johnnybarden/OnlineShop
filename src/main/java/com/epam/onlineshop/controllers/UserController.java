@@ -2,12 +2,12 @@ package com.epam.onlineshop.controllers;
 
 import com.epam.onlineshop.entities.ProductInOrder;
 import com.epam.onlineshop.services.ProductInOrderService;
-import com.epam.onlineshop.services.security.SecurityService;
 import com.epam.onlineshop.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import com.epam.onlineshop.entities.Role;
 import com.epam.onlineshop.entities.User;
 import com.epam.onlineshop.services.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -26,9 +26,9 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-    private final SecurityService securityService;
     private final UserValidator userValidator;
     private final ProductInOrderService productInOrderService;
+    private final static Logger logger = Logger.getLogger(UserController.class);
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView openRegistrationForm(ModelAndView model) {
@@ -38,12 +38,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/logout")
-    public ModelAndView openRegistrationForm(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView openRegistrationForm(ModelAndView model, HttpServletRequest request,
+                                             HttpServletResponse response, Principal principal) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         model.setViewName("redirect:/login?logout");
+        logger.info("User " + principal.getName() + "log out");
         return model;
     }
 
@@ -58,8 +60,8 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView editProfile(ModelAndView model, Principal principal) {
+    @GetMapping(value = "/edit")
+    public ModelAndView openEditProfileForm(ModelAndView model, Principal principal) {
         String username = principal.getName();
         User currentUser = userService.findByUsername(username);
         model.addObject("userJSP", currentUser);
@@ -67,15 +69,21 @@ public class UserController {
         return model;
     }
 
+    @PostMapping(value = "/edit")
+    public ModelAndView editProfile(@ModelAttribute("userJSP") User user, ModelAndView model, Principal principal) {
+        user.setUsername(principal.getName());
+        userService.updateUser(user);
+        model.setViewName("redirect:/profile");
+        return model;
+    }
+
     @PostMapping(value = "/registration")
     public ModelAndView addUser(@ModelAttribute("userJSP") User user, BindingResult bindingResult, ModelAndView model) {
         userValidator.validate(user, bindingResult);
-
         if (bindingResult.hasErrors()) {
             model.setViewName("registration");
         } else {
             userService.addUser(user);
-            securityService.autologin(user.getUsername(), user.getPassword());
             model.setViewName("redirect:/login");
         }
         return model;

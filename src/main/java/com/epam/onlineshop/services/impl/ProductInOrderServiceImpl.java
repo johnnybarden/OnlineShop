@@ -9,6 +9,7 @@ import com.epam.onlineshop.repository.ProductInOrderRepository;
 import com.epam.onlineshop.repository.ProductRepository;
 import com.epam.onlineshop.services.ProductInOrderService;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,6 +26,7 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
     private final ProductRepository productRepository;
     private final ProductInOrderRepository productInOrderRepository;
     private final OrderRepository orderRepository;
+    private final static Logger logger = Logger.getLogger(ProductInOrderServiceImpl.class);
 
     @Override
     public List<ProductInOrder> findAllNewOrderByUser(User user) {
@@ -38,12 +40,12 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
 
     @Transactional
     @Override
-    public void addOrderInCart(Long product_id, User user) {
+    public ProductInOrder addOrderInCart(Long product_id, User user) {
         Optional<ProductInOrder> optionalProductInOrder = productInOrderRepository.findOneOrderInCartByUserAndProductId(product_id, user);
         if (optionalProductInOrder.isPresent()) {
             ProductInOrder productInOrder = optionalProductInOrder.get();
             productInOrder.setQuantity(productInOrder.getQuantity() + 1);
-            productInOrderRepository.save(productInOrder);
+            return productInOrderRepository.save(productInOrder);
         } else {
             Product productFromCatalog = productRepository.getOne(product_id);
             Order orderInCart = orderRepository.getOneNewOrderByUser(user);
@@ -53,7 +55,8 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
                                                         .user(user)
                                                         .build());
             }
-            productInOrderRepository.save(ProductInOrder.builder().order(orderInCart)
+            logger.info("Product " +productFromCatalog.getName() + " was added in cart by username(" + user.getUsername() + ")");
+            return productInOrderRepository.save(ProductInOrder.builder().order(orderInCart)
                                                         .product(productFromCatalog)
                                                         .quantity(1)
                                                         .build());
@@ -63,30 +66,34 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
     @Override
     public void deleteById(Long id) {
         productInOrderRepository.deleteById(id);
+        logger.info("Product was deleted in cart.");
     }
 
     @Override
     public void incrementCount(Long id) {
         Optional<ProductInOrder> optionalProduct = productInOrderRepository.findById(id);
         if (optionalProduct.isPresent()) {
-            ProductInOrder product = optionalProduct.get();
-            product.setQuantity(product.getQuantity() + 1);
-            productInOrderRepository.save(product);
+            ProductInOrder productInOrder = optionalProduct.get();
+            productInOrder.setQuantity(productInOrder.getQuantity() + 1);
+            productInOrderRepository.save(productInOrder);
+            logger.info("Quantity of product(" + productInOrder.getProduct().getName() + ") was incremented" +
+                    "for user " + productInOrder.getOrder().getUser().getUsername() + " in cart.");
         } else{
-            System.out.println("Product didn't find!"); // Waiting for log4j
+            logger.warn("Product didn't find!");
         }
-
     }
 
     @Override
     public void decrementCount(Long id) {
         Optional<ProductInOrder> optionalProduct = productInOrderRepository.findById(id);
         if (optionalProduct.isPresent()) {
-            ProductInOrder product = optionalProduct.get();
-            product.setQuantity(product.getQuantity() - 1);
-            productInOrderRepository.save(product);
+            ProductInOrder productInOrder = optionalProduct.get();
+            productInOrder.setQuantity(productInOrder.getQuantity() - 1);
+            productInOrderRepository.save(productInOrder);
+            logger.info("Quantity of product(" + productInOrder.getProduct().getName() + ") was decremented" +
+                    "for user " + productInOrder.getOrder().getUser().getUsername() + " in cart.");
         } else{
-            System.out.println("Product didn't find!"); // Waiting for log4j
+            logger.warn("Product didn't find!");
         }
     }
 
@@ -107,6 +114,8 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
             product.getOrder().setStatus(PREPAID);
         }
         productInOrderRepository.saveAll(orders);
+        logger.info("Made order in status PREPAID " +
+                "for user " + user.getUsername() + "");
     }
 
     @Override

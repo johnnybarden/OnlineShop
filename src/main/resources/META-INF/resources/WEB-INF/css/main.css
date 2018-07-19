@@ -81,12 +81,46 @@ a#scrollUp i{
   font-family: 'Roboto', sans-serif;
 }
 
+.category-button{text-decoration:none; text-align:center;
+  padding:5px 20px;
+  border:none;
 
+  font:18px Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  color:#878177;
+  background:#ffffff;
+  -webkit-box-shadow:0px 0px 2px #ffffff, inset 0px 0px 1px #ffffff;
+  -moz-box-shadow: 0px 0px 2px #ffffff,  inset 0px 0px 1px #ffffff;
+  box-shadow:0px 0px 2px #ffffff, inset 0px 0px 1px #ffffff;
+
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition:  all 0.1s ease-out;
+  -o-transition:  all 0.1s ease-out;
+  transition:  all 0.1s ease-out;}
+.category-button:hover{
+                                    padding:11px 32px;
+                                    border:none;
+
+                                    font:18px Arial, Helvetica, sans-serif;
+                                    font-weight:bold;
+                                    color:#fca000;
+                                    background:#ffffff;
+                                    -webkit-box-shadow:0px 0px 2px #ffffff, inset 0px 0px 1px #ffffff;
+                                    -moz-box-shadow: 0px 0px 2px #ffffff,  inset 0px 0px 1px #ffffff;
+                                    box-shadow:0px 0px 2px #ffffff, inset 0px 0px 1px #ffffff;
+
+                                  }
 .contactinfo ul li a:hover{
 	background:inherit;
 }
-
-
+.total-price-cart{
+  margin: 15px;
+  text-align: right;
+}
+.order-button{
+  margin: 15px;
+  float: right;
+}
 .social-icons ul li a {
   border: 0 none;
   border-radius: 0;
@@ -901,12 +935,15 @@ h2.title {
 }
 .td-in-orders{
   padding: 10px 30px;
-  min-width: 200px;
+  min-width: 180px;
 }
 .td-for-orders{
     padding: 5px 30px;
     width:33%;
 
+}
+.table-min-first{
+  min-width: 350px;
 }
 .heavy-weight{
     font-weight: bold;
@@ -1703,7 +1740,6 @@ h2.title {
 }
 
 .breadcrumbs .breadcrumb li a:after {
-  content:"";
   height:auto;
   width: auto;
   border-width: 8px;
@@ -2253,6 +2289,12 @@ h2.title {
   margin-top:45px
 }
 
+.btn-pages{
+    margin: 5px;
+}
+.products-pages{
+
+}
 .pagination-area 
 .pagination li a {
   background:#F0F0E9;
@@ -2733,7 +2775,6 @@ h2.title {
   height: 60px;
 }
 
-
-
-
-
+.block-button {
+    width: 100px;
+}

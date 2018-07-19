@@ -1,4 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <header>
     <div class="header-middle"><!--header-middle-->
         <div class="container">
@@ -10,12 +14,12 @@
                     <div class="btn-group pull-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                English <!-- ADD HERE LANGUAGE SWITCHER-->
+                                <spring:message code="label.language"/>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Canada</a></li>
-                                <li><a href="#">UK</a></li>
+                                <li> <a href="${pageContext.request.contextPath}?lang=en"><spring:message code="label.english"/></a></li>
+                                <li> <a href="${pageContext.request.contextPath}?lang=ru"><spring:message code="label.russian"/></a></li>
                             </ul>
                         </div>
 
@@ -25,12 +29,13 @@
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
                             <c:if test="${pageContext.request.remoteUser != null}">
-                                <li><a href="/cart"><img src="${pageContext.request.contextPath}/images/content/cart.png" /> Cart</a></li>
-                                <li><a href="/profile"><img src="${pageContext.request.contextPath}/images/content/profile.png" /> Profile</a></li>
-                                <li><a href="/logout"><img src="${pageContext.request.contextPath}/images/content/logout.png" /> Logout</a></li>
+
+                                <li><a href="/cart"><img src="${pageContext.request.contextPath}/images/content/cart.png" /> <spring:message code="label.cart"/></a></li>
+                                <li><a href="/profile"><img src="${pageContext.request.contextPath}/images/content/profile.png" /> <spring:message code="label.profile"/></a></li>
+                                <li><a href="/logout"><img src="${pageContext.request.contextPath}/images/content/logout.png" /> <spring:message code="label.logout"/></a></li>
                             </c:if>
                             <c:if test="${pageContext.request.remoteUser == null}">
-                                <li><a href="login"><img src="${pageContext.request.contextPath}/images/content/login.png" /> Login</a></li>
+                                <li><a href="login"><img src="${pageContext.request.contextPath}/images/content/login.png" /> <spring:message code="label.login"/></a></li>
                             </c:if>
                         </ul>
                     </div>

@@ -73,8 +73,8 @@ public class ProductController {
     }
 
     @PostMapping("/products/{id}/save")
-    public ModelAndView saveProduct(ModelAndView model, @PathVariable Long id, @ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
-        model = new ModelAndView();
+    public ModelAndView saveProduct(@PathVariable Long id, @ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
+        ModelAndView model = new ModelAndView();
         productValidator.validate(product, bindingResult);
 
         model.setViewName(getViewName(Role.ADMIN));
@@ -82,7 +82,7 @@ public class ProductController {
         String name = String.valueOf(currentTime);
 
         if(file.isEmpty()){
-            product.setImageLink("default.jpg");
+            product.setImageLink(productService.getProductById(id).getImageLink());
         } else {
             model = ImageWriter.writeImage(model, file, name);
             product.setImageLink(name + ".jpg");

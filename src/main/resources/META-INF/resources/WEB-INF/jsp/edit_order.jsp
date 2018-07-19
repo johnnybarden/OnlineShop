@@ -1,3 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page session="false"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="formatDate" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="formatTime" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -10,12 +13,12 @@
 
 <div class = "container">
     <div>
-        <h3>Products in order ${order.id}:</h3>
+        <h3><spring:message code="label.productsInOrder"/> ${order.id}:</h3>
         <br>
         <table>
             <tr>
-                <th>Product</th>
-                <th>Quantity</th>
+                <th><spring:message code="label.product"/></th>
+                <th><spring:message code="label.quantity"/></th>
             </tr>
             <c:forEach items = "${productsInOrder}" var = "productInOrder">
                 <tr>
@@ -26,7 +29,7 @@
         </table>
     </div>
     <br>
-    <h3>Change order status:</h3>
+    <h3><spring:message code="label.changeStatus"/>:</h3>
     <br>
     <div class = "login-form">
     <editorder:form action = "/orders/${order.id}/save" method = "post" modelAttribute = "order">
@@ -35,7 +38,7 @@
             <editorder:option value = "PREPAID"></editorder:option>
             <editorder:option value = "DELIVERED"></editorder:option>
         </editorder:select>
-        <button class = "btn btn-default">Save</button>
+        <button class = "btn btn-default"><spring:message code="label.save"/></button>
     </editorder:form>
     </div>
 </div>
