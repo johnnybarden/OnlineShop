@@ -73,8 +73,8 @@ public class ProductController {
     }
 
     @PostMapping("/products/{id}/save")
-    public ModelAndView saveProduct(@PathVariable Long id, @ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
-        ModelAndView model = new ModelAndView();
+    public ModelAndView saveProduct(ModelAndView model, @PathVariable Long id, @ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
+        model = new ModelAndView();
         productValidator.validate(product, bindingResult);
 
         model.setViewName(getViewName(Role.ADMIN));

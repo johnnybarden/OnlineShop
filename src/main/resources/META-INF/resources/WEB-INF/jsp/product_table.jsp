@@ -12,31 +12,34 @@
 
 <div class = "container">
     <div class = "login-form">
-            <table>
-                <tr>
-                    <td>
-                        <h3 class = "navbar-header">Products</h3><br><br>
-                        <add:form action = "/products/add" method="get">
-                            <button class="btn btn-default" type = "submit">Add product</button>
-                        </add:form>
-                    </td>
-                    <td>
-                            <select id = "category" style = "width: 250px;" onchange = "filter(${fn:length(productList)})">
-                                <option value = "ALL">ALL</option>
-                                <option value = "STAR_TREK">STAR_TREK</option>
-                                <option value = "STAR_WARS">STAR_WARS</option>
-                                <option value = "WARHAMMER_40000">WARHAMMER_40000</option>
-                                <option value = "START_CITIZEN">START_CITIZEN</option>
-                                <option value = "EVE_ONLINE">EVE_ONLINE</option>
-                                <option value = "ELITE_DANGEROUS">ELITE_DANGEROUS</option>
-                            </select>
-                    </td>
-                </tr>
-            </table>
-        <add:form action = "/products/add" method="get">
-            <h3 class = "navbar-header"><spring:message code="label.products"/></h3>
-            <button style="margin-left: 40px;" class="btn btn-default" type = "submit"><spring:message code="label.addProduct"/></button>
-        </add:form>
+        <table>
+            <tr>
+                <td>
+                    <h3 class = "navbar-header"><spring:message code="label.products"/></h3><br><br>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <add:form action = "/products/add" method="get">
+                        <button class="btn btn-default" type = "submit"><spring:message code="label.addProduct"/></button>
+                    </add:form>
+                </td>
+                <td><h4 style = "margin-left: 40px; margin-right: 40px;">Choose the product category:</h4></td>
+                <td>
+                    <select id = "category" style = "width: 250px;" onchange = "filter(${fn:length(productList)})">
+                        <option value = "ALL">ALL</option>
+                        <option value = "STAR_TREK">STAR_TREK</option>
+                        <option value = "STAR_WARS">STAR_WARS</option>
+                        <option value = "WARHAMMER_40000">WARHAMMER_40000</option>
+                        <option value = "STAR_CITIZEN">STAR_CITIZEN</option>
+                        <option value = "EVE_ONLINE">EVE_ONLINE</option>
+                        <option value = "ELITE_DANGEROUS">ELITE_DANGEROUS</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
     </div>
     <table class = "table table-condensed">
         <tr>
@@ -47,7 +50,7 @@
             <th><spring:message code="label.edit"/></th>
         </tr>
         <c:forEach var = "product" items = "${productList}">
-                <tr display = "block" id = "tr${product.id}">
+                <tr style = "display: block;" id = "tr${product.id}">
                     <td><img style = "height: 40px;" src = "${pageContext.request.contextPath}/images/products/${product.imageLink}"></td>
                     <td>${product.name}</td>
                     <td>$${product.price}</td>
@@ -55,7 +58,6 @@
                     <td>
                         <div class = "login-form">
                             <editing:form action = "${pageContext.request.contextPath}/products/${product.id}/edit" method = "get">
-                                <button type="submit" class="btn btn-default ">Edit</button>
                                 <button type="submit" class="btn btn-default"><spring:message code="label.edit"/></button>
                             </editing:form>
                         </div>
@@ -73,7 +75,7 @@
         if (category == 'ALL') {
             for (var i = 1; i <= size; i++) {
                 document.getElementById('tr' + i.toString()).style.display = 'block';
-            }
+        }
         } else {
             for (var i = 1; i <= size; i++) {
 
