@@ -1,3 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page session="false"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="buy" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -17,35 +20,18 @@
                 <div class="login-form">
                     <h2><spring:message code="label.editProduct"/></h2>
                     <addproduct:form action = "${pageContext.request.contextPath}/products/${product.id}/save" method = "post" enctype="multipart/form-data" modelAttribute = "product" class="form_signin form_register" id="jform" name = "form_register">
-                    <h2>Edit product</h2>
-                    <editproduct:form action = "${pageContext.request.contextPath}/products/${product.id}/save" method = "post" enctype="multipart/form-data" modelAttribute = "product" class="form_signin form_register" id="jform" name = "form_register">
-
                     <input type="file" class="btn btn-default" name="file" id="upload_hidden" style="position: absolute; display: block; overflow: hidden; width: 0; height: 0; border: 0; padding: 0;"
                            onchange="document.getElementById('upload_visible').value = this.value;" >
                     <input type="text" readonly="1" id="upload_visible"
                            onclick="document.getElementById('upload_hidden').click();"  value = "${product.imageLink}" />
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <editproduct:input type = "text" path = "name" name="product_name" id="product_name" minLength="2" maxlength="32" class="form-control product_form_margin" value = "${product.name}" required="true" oninput="validate()"/>
-                        <span id="productNameInfo" class="form_hint" style="background: #46b8da">Enter product name</span>
                         <addproduct:input type = "text" path = "name" name="product_name" id="product_name" minLength="2" maxlength="32" class="form-control product_form_margin" value = "${product.name}" required="true" oninput="validate()"/>
                         <span id="productNameInfo" class="form_hint" style="background: #46b8da"><spring:message code="label.enterProdName"/></span>
                         <form:errors path="name"/>
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <editproduct:input type="number" class = "product-price product_form_margin" path = "price" name="product_price" id="product_price" min="1" max="9999999"  value = "${product.price}" required="true" oninput="validate()"/>
-                            <span id="productPriceInfo" class="form_hint" style="background: #46b8da">Enter product price</span>
                             <addproduct:input type="number" class = "product-price product_form_margin" path = "price" name="product_price" id="product_price" min="1" max="9999999"  value = "${product.price}" required="true" oninput="validate()"/>
                             <span id="productPriceInfo" class="form_hint" style="background: #46b8da"><spring:message code="label.enterProdPrice"/></span>
                             <form:errors path="price"/>
-                            <editproduct:select path = "category" cssStyle = "width: 250px;">
-                                <editproduct:option value = "STAR_TREK"></editproduct:option>
-                                <editproduct:option value = "STAR_WARS"></editproduct:option>
-                                <editproduct:option value = "WARHAMMER_40000"></editproduct:option>
-                                <editproduct:option value = "START_CITIZEN"></editproduct:option>
-                                <editproduct:option value = "EVE_ONLINE"></editproduct:option>
-                                <editproduct:option value = "ELITE_DANGEROUS"></editproduct:option>
-                            </editproduct:select>
-                            <button type="submit" class="btn btn-default">Save product</button>
-                        </editproduct:form>
                             <button type="submit" class="btn btn-default"><spring:message code="label.save"/></button>
                             </addproduct:form>
                 </div>
