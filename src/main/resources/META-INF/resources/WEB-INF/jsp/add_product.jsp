@@ -30,16 +30,15 @@
                         <addproduct:input type="number" class = "product-price product_form_margin" path = "price" name="product_price" id="product_price" min="1" max="9999999" placeholder="Price" required="true" oninput="validate()"/>
                             <span id="productPriceInfo" class="form_hint" style="background: #46b8da"><spring:message code="label.enterProdPrice"/></span>
                             <form:errors path="price"/>
-                        <button type="submit" class="btn btn-default"><spring:message code="label.addProduct"/></button>
                             <addproduct:select path = "category" cssStyle = "width: 250px;">
                                 <addproduct:option value = "STAR_TREK"></addproduct:option>
                                 <addproduct:option value = "STAR_WARS"></addproduct:option>
                                 <addproduct:option value = "WARHAMMER_40000"></addproduct:option>
-                                <addproduct:option value = "START_CITIZEN"></addproduct:option>
+                                <addproduct:option value = "STAR_CITIZEN"></addproduct:option>
                                 <addproduct:option value = "EVE_ONLINE"></addproduct:option>
                                 <addproduct:option value = "ELITE_DANGEROUS"></addproduct:option>
                             </addproduct:select>
-                        <button type="submit" class="btn btn-default">Add product</button>
+                        <button type="submit" class="btn btn-default"><spring:message code="label.addProduct"/></button>
                     </addproduct:form>
             </div>
 

@@ -25,7 +25,7 @@ INSERT INTO product (id, name, category, price, image_url) VALUES
     (16, 'Imperator-I', 'STAR_WARS' ,7500, 'imperator1.jpg'),
     (17, 'Imperator-II', 'STAR_WARS' ,7500, 'imperator.jpg'),
     (18, 'Chaos', 'WARHAMMER_40000' ,7500, 'warhammer.jpg'),
-    (19, 'Hammerhead', 'START_CITIZEN' ,7500, 'hammerhead.jpg'),
+    (19, 'Hammerhead', 'STAR_CITIZEN' ,7500, 'hammerhead.jpg'),
     (20, 'Augoror Navy Issue', 'EVE_ONLINE' ,7500, 'augoror.jpg'),
     (21, 'Python', 'ELITE_DANGEROUS' ,7500, 'python.jpg');
 
