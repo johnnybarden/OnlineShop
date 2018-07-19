@@ -1,5 +1,6 @@
 package com.epam.onlineshop.entities;
 
+import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
