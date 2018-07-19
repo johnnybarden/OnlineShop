@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
-<%@ page session="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,7 +10,6 @@
                 <h2><spring:message code="label.loginToAcc"/></h2>
                 <form method="POST" action="${contextPath}/login" class="form-signin">
                     <div class="form-group ${error != null ? 'has-error' : ''}">
-
                         <span class="message-success">${message}</span>
                         <c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'blocked'}">
                             <span class="message-error"><spring:message code="message.blocked.error"/></span>
