@@ -41,7 +41,7 @@
                                     <td><h5> ${userJSP.phoneNumber} </h5></td>
                                 </tr>
                             </table>
-                            <button class="btn btn-default" type="submit">Edit</button>
+                            <button class="btn btn-default" type="submit"><spring:message code="label.profile.edit"/></button>
                         </form>
                     </div>
                 </td>
@@ -60,9 +60,9 @@
                                 <c:otherwise>
                                     <table class="order-table-border table-width">
                                         <tr>
-                                            <td class="table-center-left td-for-orders heavy-weight">Order ID</td>
-                                            <td class="table-center-left td-for-orders heavy-weight">Status</td>
-                                            <td class="table-center-left td-for-orders heavy-weight">Products</td></tr>
+                                            <td class="table-center-left td-for-orders heavy-weight"><spring:message code="label.profile.order.id"/></td>
+                                            <td class="table-center-left td-for-orders heavy-weight"><spring:message code="label.profile.order.status"/></td>
+                                            <td class="table-center-left td-for-orders heavy-weight"><spring:message code="label.profile.products"/></td></tr>
                                     </table>
 
                                     <c:forEach items="${products}" var="item">
@@ -75,7 +75,7 @@
                                                     document.write('<tr>');
                                                     document.write('<td class="td-for-orders">${item.order.id}</td>');
                                                     document.write('<td class="td-for-orders">${item.order.status}</td>');
-                                                    document.write(' <td class="td-for-orders"><button class="btn btn-primary btn-hover" onclick="showSpoiler(${item.order.id})">Show products</button></td>');
+                                                    document.write(' <td class="td-for-orders"><button class="btn btn-primary btn-hover" onclick="showSpoiler(${item.order.id})"><spring:message code="label.profile.button.show"/></button></td>');
                                                     document.write(' </tr>');
                                                 }
 
@@ -86,9 +86,9 @@
                                                 <script>
 
                                                     if(isOrder){
-                                                        document.write('<td class="table-center td-in-orders">Image</td>\n' +
+                                                        document.write('<td class="table-center td-in-orders"><spring:message code="label.profile.product.image"/></td>\n' +
                                                             '<td class="table-center td-in-orders"><spring:message code="label.name"/></td>\n' +
-                                                            '<td class="table-center td-in-orders">Web ID</td>\n' +
+                                                            '<td class="table-center td-in-orders"><spring:message code="label.profile.product.id"/></td>\n' +
                                                             '<td class="table-center td-in-orders"><spring:message code="label.price"/></td>\n' +
                                                             '<td class="table-center td-in-orders"><spring:message code="label.quantity"/></td></tr>');
                                                         document.write(' <tr class="hidden${item.order.id}" style="display: none">');
@@ -100,7 +100,7 @@
                                                                                                        alt=""/></td>
                                                 <td class="td-in-orders products-in-order-center">${item.product.name}</td>
                                                 <td class="td-in-orders products-in-order-center">${item.id}</td>
-                                                <td class="td-in-orders products-in-order-center">$${item.product.price}</td>
+                                                <td class="td-in-orders products-in-order-center">${item.product.price}  ¤</td>
                                                 <td class="td-in-orders products-in-order-center">${item.quantity}</td>
                                             </tr>
                                         </table>

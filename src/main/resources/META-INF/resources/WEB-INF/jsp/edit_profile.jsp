@@ -29,14 +29,14 @@
                 </spring:bind>
                 <spring:bind path="phoneNumber">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="phoneNumber" name="phoneNumber" id="phoneNumber" minLength="8" maxlength="32" class="form-control form_margin" placeholder="Phone number"
+                        <form:input type="text" path="phoneNumber" name="phoneNumber" id="phoneNumber" minLength="11" maxlength="21" class="form-control form_margin" placeholder="Phone number"
                                     autofocus="true" required="true" oninput="validate()"/> <span id="phoneNumberInfo" class="form_hint" style="background: #46b8da" ><spring:message code="label.enterPhone"/></span>
                         <form:errors path="phoneNumber"/>
                     </div>
                 </spring:bind>
                 <spring:bind path="address">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="address" name="address" id="address" minLength="10" class="form-control form_margin" placeholder="Address"
+                        <form:input type="text" path="address" name="address" id="address" minLength="10"  maxLength="32" class="form-control form_margin" placeholder="Address"
                                     autofocus="true" required="true" oninput="validate()"/> <span id="addressInfo" class="form_hint" style="background: #46b8da" ><spring:message code="label.enterAddress"/></span>
                         <form:errors path="address"/>
                     </div>

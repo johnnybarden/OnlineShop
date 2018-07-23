@@ -36,7 +36,6 @@ public class CartController {
     @PostMapping(value = "/cart/order")
     public ModelAndView payOrder(ModelAndView model, Principal principal) {
         productInOrderService.makeOrder(userService.findByUsername(principal.getName()));
-        model.addObject("message", "You have been paid successfully.");
         model.addObject("isPaid", true);
         model.setViewName("payment0");
         return model;

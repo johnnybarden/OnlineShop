@@ -1,56 +1,34 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
-<%@ page session="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!--TODO: internationalization-->
 <div class="col-sm-3">
     <div class="left-sidebar">
-        <h2>Category</h2>
+        <h2><spring:message code="label.categories"/></h2>
         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-            <div class="panel panel-default">
+            <form action="${pageContext.request.contextPath}/welcome">
+
+                <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-                            Monitors
-                        </a>
-                    </h4>
+                   <h4 class="panel-title">
+                        <button type=submit class="category-button" name="category"><spring:message code="label.category.ALL"/></button>
+                        </h4>
+                    </div>
                 </div>
 
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#mens">
-                            Pens
-                        </a>
-                    </h4>
-                </div>
-            </div>
+            <c:forEach var="category" items="${categories}">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                            Weapons
-                        </a>
-                    </h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Star Destroyers</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Notebooks</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Houses</a></h4>
-                </div>
-            </div>
+                            <script>
+                                document.write('<div class="panel panel-default">');
+                                    document.write('<div class="panel-heading">');
+                                    document.write('<h4 class="panel-title">');
+                                    document.write('<button type=submit class="category-button" name="category" value="${category}"><spring:message code="label.category.${category}"/></button>');
+                                    document.write('</h4>');
+                                    document.write('</div>');
+                                    document.write('</div>');
+
+                            </script>
+
+            </c:forEach>
+            </form>
         </div><!--/category-products-->
-
     </div>
 </div>
